@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msg.phonebook.dao.UserDAO">
+            
+         <insert id="insertUser" parameterType="User" keyProperty="id">
+        insert into users(
+        userid, 
+        username,
+        phonenumber,
+        imageurl,
+        deptno,
+        job,
+        email,
+        festnetnumber,
+        password
+        )
+        values
+        (
+        #{userid},       
+        #{username},
+        #{phonenumber},
+        #{imageurl},
+        #{deptno},
+        #{job},
+        #{email},
+        #{festnetnumber},
+        #{password}
+         )
+         </insert>
+    	<update id="updateUser" parameterType="User">
+    	    update users set 
+    	    username=#{username},
+    	    phonenumber=#{phonenumber},
+    	    imageurl=#{imageurl},
+    	    deptno=#{deptno},
+    	    job=#{job},
+    	    email=#{email},
+    	    festnetnumber=#{festnetnumber} 
+    	    where userid=#{userid}
+    	</update> 
+        <delete id="removeUser" parameterType="User">
+            delete from users 
+            where userid=#{userid}  
+        </delete>
+        <select id="getPasswordByPhonenumber" parameterType="java.lang.String" resultType="java.lang.String">
+            select password from users
+            where phonenumber=#{phonenumber}
+        </select>
+        <select id="getUsers" resultMap="usersResultMap">
+            select * from users
+        </select>
+        <select id="getContactUsersByUserid" parameterType="java.lang.Integer" resultMap="contactUsersResultMap">
+            select * from contactusers
+            where relationid=#{userid}
+        </select>
+        <resultMap type="ContactUser" id="contactUserResultMap">
+            <id property="contactid" column="contactid"/>
+            <result property="name" column="name"/>
+            <result property="mobile" column="mobile"/>
+            <result property="photourl" column="photourl"/>
+            <result property="relationid" column="relationid"/>
+        </resultMap>
+        <resultMap type="ContactUsers" id="contactUsersResultMap">
+            <collection property="contactuserslist" resultMap="contactUserResultMap"></collection>
+        </resultMap>
+        <resultMap type="User" id="userResultMap">
+            <id property="userid" column="userid"/>
+            <result property="username" column="username"/>
+            <result property="phonenumber" column="phonenumber"/>
+            <result property="imageurl" column="imageurl"/>
+            <result property="deptno" column="deptno"/>
+            <result property="job" column="job"/>
+            <result property="email" column="email"/>
+            <result property="festnetnumber" column="festnetnumber"/>
+        </resultMap>
+        <insert id="replaceContactUser" parameterType="ContactUser">
+            replace into contactusers(
+            contactid,
+            name,
+            mobile,
+            photourl,
+            relationid
+            )
+            values
+            (
+            #{contactid},
+            #{name},
+            #{mobile},
+            #{photourl},
+            #{relationid}
+            )
+        </insert>
+        <resultMap type="Users" id="usersResultMap">
+            <collection property="userslist" resultMap="userResultMap"></collection>
+        </resultMap>
+</mapper>
