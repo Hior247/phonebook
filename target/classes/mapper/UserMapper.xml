@@ -8,6 +8,10 @@
     	    select * from users
     	    where userid=#{userid}
     	</select>
+    	<select id="getPFByRanmd5" parameterType="java.lang.String" resultType="PF">
+    	    select * from pwdfind
+    	    where ranmd5=#{ranmd5}
+    	</select>
          <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into users(
         userid, 
@@ -33,6 +37,29 @@
         #{password}
          )
          </insert>
+         
+         <insert id="insertPF" parameterType="PF" keyProperty="id">
+        insert into pwdfind(
+        pfid,
+        userid, 
+       	exptime,
+        ranmd5,
+        type
+        )
+        values
+        (
+        #{pfid},
+        #{userid},       
+        #{exptime},
+        #{ranmd5},
+        #{type}
+         )
+         </insert>
+         
+         <delete id="removePFByUserid" parameterType="java.lang.Integer">
+            delete from pwdfind
+            where userid=#{userid}  
+        </delete>
     	<update id="updateUser" parameterType="User">
     	    update users set 
     	    username=#{username},
@@ -50,13 +77,19 @@
             delete from users 
             where userid=#{userid}  
         </delete>
+        
         <select id="getPasswordByPhonenumber" parameterType="java.lang.String" resultType="java.lang.String">
             select password from users
             where phonenumber=#{phonenumber}
         </select>
+        <!-- parameterType改成对象X 换成夹一个方法 -->
         <select id="getUserid" parameterType="java.lang.String" resultType="java.lang.Integer">
             select userid from users
             where phonenumber=#{phonenumber}
+        </select>
+          <select id="getUserid1" parameterType="java.lang.String" resultType="java.lang.Integer">
+            select userid from users
+            where email=#{email}
         </select>
         <select id="getUsers" resultMap="usersResultMap">
             select * from users

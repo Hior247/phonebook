@@ -3,6 +3,8 @@ package com.msg.phonebook.service.impl;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.msg.phonebook.dao.UserDAO;
 import com.msg.phonebook.model.ContactUser;
 import com.msg.phonebook.model.ContactUsers;
+import com.msg.phonebook.model.PF;
 import com.msg.phonebook.model.User;
 import com.msg.phonebook.model.Users;
 import com.msg.phonebook.service.PhonebookService;
@@ -84,7 +87,7 @@ public class PhonebookServiceImpl implements PhonebookService{
   
 	}
 
-	public int getUserid(String phonenumber){
+	public Integer getUserid(String phonenumber){
 		return userDAO.getUserid(phonenumber);
 	}
 	public String getPasswordByPhonenumber(String phonenumber) {
@@ -120,5 +123,67 @@ public class PhonebookServiceImpl implements PhonebookService{
 
 	public User getUserByUserid(int userid) {
 		return userDAO.getUserByUserid(userid);
+	}
+
+	public boolean isPhone(String phonenumber) {
+		Pattern p = null;  
+        Matcher m = null;  
+        boolean b = false;   
+        p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号  
+        m = p.matcher(phonenumber);  
+        b = m.matches();   
+        return b;  
+	}
+	
+	public boolean isEmail(String email) {
+		Pattern p = null;  
+        Matcher m = null;  
+        boolean b = false;   
+        p = Pattern.compile("^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$"); // 验证邮箱  
+        m = p.matcher(email);  
+        b = m.matches();   
+        return b;  
+	}
+
+	public boolean isExist(PhonebookService phonebookService,String username, String phonenumber){
+		try{
+			return phonebookService.getUserByUserid(phonebookService.getUserid(phonenumber)==null?-1:phonebookService.getUserid(phonenumber)).getUsername().equals(username);
+		}catch(Exception e){
+			return false;
+		}
+		
+	}
+
+	public boolean isExist1(PhonebookService phonebookService,String username, String email){
+		
+		try{
+			return phonebookService.getUserByUserid(phonebookService.getUserid1(email)==null?-1:phonebookService.getUserid1(email)).getUsername().equals(username);
+		}catch(Exception e){
+			return false;
+		}
+	}
+
+	public int insertPF(PF pf) {
+		return userDAO.insertPF(pf);
+	}
+
+	public int removePFByuserid(int userid) {
+		return userDAO.removePFByUserid(userid);
+	}
+
+	public PF getPFByRanmd5(String ranmd5) {
+		return userDAO.getPFByRanmd5(ranmd5);
+	}
+
+	public Integer getUserid1(String email) {
+		return userDAO.getUserid1(email);
+	}
+
+
+	public boolean pwdMatcher(String password) {
+		String regex1= "^\\w{6,18}$";
+		Pattern pattern1 = Pattern.compile(regex1);
+		Matcher matcher1= pattern1.matcher(password);
+		return matcher1.matches();
 	}
 }

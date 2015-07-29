@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <typeAlias type="com.msg.phonebook.model.Users" alias="Users"/>
         <typeAlias type="com.msg.phonebook.model.ContactUser" alias="ContactUser"/>
         <typeAlias type="com.msg.phonebook.model.ContactUsers" alias="ContactUsers"/>
+        <typeAlias type="com.msg.phonebook.model.PF" alias="PF"/>
     </typeAliases>
     <!-- 映射map -->
     <mappers>

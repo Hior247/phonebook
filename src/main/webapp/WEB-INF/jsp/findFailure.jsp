@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>欢迎你！</h1>
+<h1>重置密码失败，请重试！</h1>
 </body>
 </html>

@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>欢迎你！</h1>
+<h1>恭喜您完成密码重置！新的密码将会以短信的形式发给您！</h1>
 </body>
 </html>
