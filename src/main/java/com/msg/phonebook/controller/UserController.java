@@ -273,13 +273,19 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/iport",method=RequestMethod.POST,produces="application/josn;charset=UTF-8")
-	@ResponseBody
-	public Map<String,Object> iport(PrintWriter out,HttpServletResponse response){
-//		int userid=(Integer)smap.get("userid");
-		response.reset();
+
+	public @ResponseBody Map<String,Object> iport(PrintWriter out,HttpServletResponse response,HttpServletRequest request){
+//		try {
+//			request.setCharacterEncoding("UTF-8");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}//设置处理请求的编码格式
+//		int userid=(int)smap.get("userid");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("users", phonebookService.getUsers());
 //		map.put("contactUsers", phonebookService.getContactUsersByUserid(userid));
+//		map.put("user",phonebookService.getUserByUserid(Integer.parseInt(userid)));
+		response.reset();
 		return map;
 	}
 	/**
@@ -415,9 +421,16 @@ public class UserController {
 		return map;
 	}
 	@RequestMapping(value="updateUser",method=RequestMethod.POST,produces="application/json;charset=UTF-8")
+	@ResponseBody
 	public Map<String,Object> updateUser(@RequestBody User user,PrintWriter out,HttpServletResponse response){
-		
+		//要判断userid是否为0，为0的话，没有改数据，就会返回更新成功
 		Map<String,Object> map=new HashMap<String,Object>();
+		if(phonebookService.getUserByUserid(user.getUserid())==null){
+			map.put("msg", "useridError");
+			response.reset();
+			return map;
+		}
+		System.out.println(user.getUserid());
 		//用户信息校验
 				String msgstr="";
 				if(!phonebookService.isPhone(user.getPhonenumber())){
@@ -461,7 +474,7 @@ public class UserController {
 		//type判断
 		String type=(String)smap.get("type");
 		if(type.equals(type1)){
-			String username=(String)smap.get("username");
+//			String username=(String)smap.get("username");
 			String phonenumber=(String)smap.get("phonenumber");
 			Map<String,Object> map=new HashMap<String,Object>();
 		try {
@@ -469,8 +482,8 @@ public class UserController {
 		
 		//用户信息校验
 				String msgstr="";
-				if(!phonebookService.isExist(phonebookService, username, phonenumber)){
-					msgstr="phonenumberError or usernameError";
+				if(!phonebookService.isExist(phonebookService,phonenumber)){
+					msgstr="phonenumberError";
 					map.put("msg",msgstr);
 					response.reset();
 					return map;
@@ -510,14 +523,14 @@ public class UserController {
 				}
 		}else {
 			
-			String username=(String)smap.get("username");
+//			String username=(String)smap.get("username");
 			String email=(String)smap.get("email");
 			Map<String,Object> map=new HashMap<String,Object>();
 			try {
 			//用户信息校验
 					String msgstr="";
-					if(!phonebookService.isExist1(phonebookService, username, email)){
-						msgstr="emailError or usernameError";
+					if(!phonebookService.isExist1(phonebookService, email)){
+						msgstr="emailError";
 						map.put("msg",msgstr);
 						response.reset();
 						return map;
@@ -671,6 +684,16 @@ public class UserController {
 			return "findFailure";
 		}
 		
+	}
+	@RequestMapping(value="/getUser",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public Map<String,Object> getUser(@RequestBody Map<String,Object> smap,PrintWriter out,HttpServletResponse response){
+		Map<String,Object> map=new HashMap<String,Object>();
+		int userid=(int)smap.get("userid");
+		User user=phonebookService.getUserByUserid(userid);
+		map.put("user", user);
+		response.reset();
+		return map;
 	}
 	@RequestMapping("index")
 public String index(){

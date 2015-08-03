@@ -27,8 +27,8 @@ public interface PhonebookService {
 	 public User getUserByUserid(int userid);
 	 public boolean isPhone(String phonenumber);
 	 public boolean isEmail(String email);
-	 public boolean isExist(PhonebookService phonebookService,String username,String phonenumber);
-	 public boolean isExist1(PhonebookService phonebookService,String username,String email);
+	 public boolean isExist(PhonebookService phonebookService,String phonenumber);
+	 public boolean isExist1(PhonebookService phonebookService,String email);
 	 public int insertPF(PF pf);
 	 public int removePFByuserid(int userid);
 	 public PF getPFByRanmd5(String ranmd5);

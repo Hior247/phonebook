@@ -145,22 +145,25 @@ public class PhonebookServiceImpl implements PhonebookService{
         return b;  
 	}
 
-	public boolean isExist(PhonebookService phonebookService,String username, String phonenumber){
-		try{
-			return phonebookService.getUserByUserid(phonebookService.getUserid(phonenumber)==null?-1:phonebookService.getUserid(phonenumber)).getUsername().equals(username);
-		}catch(Exception e){
-			return false;
-		}
+	public boolean isExist(PhonebookService phonebookService,String phonenumber){
 		
+		return phonebookService.getUserid(phonenumber)!=null;
+	
+//		try{
+//			return phonebookService.getUserByUserid(phonebookService.getUserid(phonenumber)==null?-1:phonebookService.getUserid(phonenumber)).getUsername().equals(username);
+//		}catch(Exception e){
+//			return false;
+//		}
+//		
 	}
 
-	public boolean isExist1(PhonebookService phonebookService,String username, String email){
-		
-		try{
-			return phonebookService.getUserByUserid(phonebookService.getUserid1(email)==null?-1:phonebookService.getUserid1(email)).getUsername().equals(username);
-		}catch(Exception e){
-			return false;
-		}
+	public boolean isExist1(PhonebookService phonebookService, String email){
+		return phonebookService.getUserid1(email)!=null;
+//		try{
+//			return phonebookService.getUserByUserid(phonebookService.getUserid1(email)==null?-1:phonebookService.getUserid1(email)).getUsername().equals(username);
+//		}catch(Exception e){
+//			return false;
+//		}
 	}
 
 	public int insertPF(PF pf) {

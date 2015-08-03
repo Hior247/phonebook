@@ -72,7 +72,7 @@ public class ServiceImplTest {
 		System.out.println(phonebookService.isPhone("13349904887"));
 		MtService.send("13349904887", "不败的夏天");
 
-		System.out.println(phonebookService.isExist(phonebookService,"张三","135284062") );
+		System.out.println(phonebookService.isExist(phonebookService,"18696492998") );
 
 		PF pf=new PF();
 		pf.setExptime("1324");
